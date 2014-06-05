@@ -115,7 +115,6 @@ public class CodePatchTest extends TestCase {
         CodePatch codeRYRY = new CodePatch ("RYRY");
         CodePatch codeRYYY = new CodePatch ("RYYY");
         
-        // MUST GET THIS TEST CASE WORKING
         assertEquals(codeRYRY.countClues(codeRYYY),0);
     }
     
