@@ -91,11 +91,12 @@ public class CodePatch {
         report.append(countClues(otherCode));
         return report;
     }
+   
     
     // match otherCode against the target CodePatch and return the number of clues
     // NOTE: This code and the supporting private methods initialiseCountClueBoolArrays()
     // and checkIfColourMatches() comprise quite a complex way to count the number of clues. 
-    // There was probably a significantly easier way to implement this.
+    // There was probably a significantly easier way to implement this, which I didn't think of.
     
     // However I am pretty confident this works.
     // I have junit tests that test against 9 different cases:
@@ -108,7 +109,7 @@ public class CodePatch {
     // YRRY to RBBB => clues = 1 (match 0) ** NOT clues = 2
     // RBRB to BBBB => clues = 0 (match 2)
     // RYRY to RYYY => clues = 0 (match 3)
-    // & all pass successfully
+    // & all pass successfully    
     public int countClues(CodePatch otherCode) {
         // keep track of whenever a colour in the target 
         // CodePatch is matched correctly or used as a clue
@@ -132,6 +133,16 @@ public class CodePatch {
         return clueCount;
     }
 
+// I considered another implementation of countClues() that would look something like below
+// but I decided it might be too complicated to implement for little benefit
+//    public int countClues2(CodePatch otherCode) {
+        // convert the 2 codepatches to strings
+        // remove the matched characters from the 2 strings
+        // convert the reduced strings to arrays of char
+        // sort the arrays of char
+        // move through the 2 arrays of char comparing char by char to see if any matches can be found
+ //   }
+    
     // set up the 2 initial boolean arrays that are used when counting the clues between 2 strings
     private void initialiseCountClueBoolArrays(boolean[] usedThisColour, CodePatch otherCode, boolean[] usedOtherColour) {
         // array of 4 booleans
