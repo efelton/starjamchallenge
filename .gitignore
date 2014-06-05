@@ -2,3 +2,10 @@
 dist/
 src/javabook
 
+#ignore netbeans files
+build.xml
+manifest.mf
+nbproject/
+build/
+
+
