@@ -74,4 +74,9 @@ public class GuessRecord {
         
         return strRecord;
     }
+    
+    public String getTargetString() {
+        return target.toString();
+    }
+
 }
