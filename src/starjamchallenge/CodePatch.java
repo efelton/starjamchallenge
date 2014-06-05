@@ -16,12 +16,14 @@ public class CodePatch {
     
     private final Random rand = new Random();
     
+    // constructs a codepatch from 4 Colour enums passed in
     public CodePatch (Colour c1, Colour c2, Colour c3, Colour c4) {
         code = new Colour[codePatchLength];
         
         code[0] = c1; code[1] = c2; code[2]=c3; code [3]=c4;
     }
     
+    // Constructs a code patch from a passed in string.
     // only call this if assured this is a properly formatted string with 
     // appropriate characters in it
     // Ref: casting string to enum
@@ -39,6 +41,8 @@ public class CodePatch {
         }
     }
     
+    // Returns a code patch as a string. E.g. ROYG will be returned
+    // as "R O Y G"
     // Reference for converting a StringBuffer to a string
     //http://www.coderanch.com/t/385588/java/java/convert-StringBuffer-String
     public String toString () {
@@ -71,7 +75,10 @@ public class CodePatch {
             matches = matches && (code[i] == otherCode.code[i]);
         return matches;
     }
-    
+
+    // Returns a stringbuffer containing an status of the comparison
+    // between this CodePatch (presumed to be the target) and another
+    // one (presumed to be the user's guess)
     public StringBuffer getComparisonReport (CodePatch otherCode) {
         StringBuffer report = new StringBuffer();
         report.append("Code: ");
@@ -85,13 +92,31 @@ public class CodePatch {
         return report;
     }
     
+    // match otherCode against the target CodePatch and return the number of clues
+    // NOTE: This code and the supporting private methods initialiseCountClueBoolArrays()
+    // and checkIfColourMatches() comprise quite a complex way to count the number of clues. 
+    // There was probably a significantly easier way to implement this.
     
-    // match otherCode against the target CodePatch and count the number of clues
+    // However I am pretty confident this works.
+    // I have junit tests that test against 9 different cases:
+    // RRRR to RRRR => clues = 0 (match 4)
+    // RRRR to BBBB => clues = 0 (match 0)
+    // RBBB to RYYY => clues = 0 (match 1)
+    // RYYY to RYRY => clues = 0 (match 3)
+    // RRBB to RYRY => clues = 1 (match 1)
+    // RBBB to YRRY => clues = 1 (match 0) ** NOT clues = 2
+    // YRRY to RBBB => clues = 1 (match 0) ** NOT clues = 2
+    // RBRB to BBBB => clues = 0 (match 2)
+    // RYRY to RYYY => clues = 0 (match 3)
+    // & all pass successfully
     public int countClues(CodePatch otherCode) {
         // keep track of whenever a colour in the target 
         // CodePatch is matched correctly or used as a clue
         
-        // array of 4 booleans
+        // 2 arrays of 4 booleans used to keep track of whether a clue has 
+        // been counted or not
+        // used x Color set to true if it has already been matched or used for a clue
+        // if it has then it is not eligible to be used again.
         boolean [] usedThisColour = new boolean[4];
         boolean [] usedOtherColour = new boolean[4];
         
@@ -118,6 +143,8 @@ public class CodePatch {
         }
     }
 
+    
+    // check if the jth colour in this.codepatch can match against any of the colours of otherCodePatch
     private boolean checkIfColourMatches(int j, boolean[] usedThisColour, boolean[] usedOtherColour, CodePatch otherCode, int clueCount) {
         // see if the colour can match against one of the other parts of the target
         boolean foundClue =false ;
@@ -131,7 +158,11 @@ public class CodePatch {
         }
         return foundClue;
     }
-
+    // returns a string that can be shown to the user showing
+    // how they their guess matched against the target code patch
+    // if they get everything wrong then _ _ _ _
+    // if they get some right e.g. _ R _ O (the R and the O are shown 
+    // in the positions they appear in the target string).
     private String makeMatchString(CodePatch otherCode) {
         StringBuffer strbuf = new StringBuffer();
         for (int i=0; i<codePatchLength; i++) {

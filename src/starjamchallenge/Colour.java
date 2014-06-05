@@ -4,7 +4,10 @@
 package starjamchallenge;
 
 /**
- *
+ * Enumeration class used for the 7 colours.
+ * In hindsight, it would probably have been simpler to just use letters for 
+ * colours and strings for the code patches, but enums were alright.
+ * 
  * @author Eoghan
  */
 public enum Colour {
