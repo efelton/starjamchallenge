@@ -1,83 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package starjamchallenge;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 /**
  *
  * @author Eoghan
  */
 public class StarJamChallenge {
-
+    GameInputOutput gameIO;
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        mainLoop();
+        GamePlayer player = new GamePlayer();
+        player.mainLoop();
     }
-    
-    public static void mainLoop() {
-        boolean gameQuit;
-        
-        do {
-            gameQuit = playAGame();
-            if (!gameQuit) {
-                gameQuit = !GameInputOutput.promptToPlayAgain();
-            }
-        } while (!gameQuit);
-    }
-
-    private static boolean playAGame (){
-        GuessRecord rec = setUpNewGame();
-        boolean gameQuit = false;
-        
-        while (!gameQuit && !rec.gameFinished()) {                
-            gameQuit = gameLoop(rec);
-        }
-        handleGameFinishConditions(rec);
-        return gameQuit;
-    }
-
-    
-    private static GuessRecord setUpNewGame() {
-        CodePatch target = new CodePatch();
-        GuessRecord rec = new GuessRecord(target);
-        return rec;
-    }
-
-    private static void handleGameFinishConditions(GuessRecord rec) {
-        if (rec.getGameWon()) 
-             GameInputOutput.handleGameWon(rec);
-        if (rec.getGameLost()) 
-             GameInputOutput.handleGameLost(rec);
-    }
-
-    private static void compareGuessAgainstRecord(CodePatch guess, GuessRecord rec) {
-        if (rec.isDuplicateGuess(guess)) {
-            GameInputOutput.handleDuplicateGuess();
-        } else {
-            rec.processGuess(guess);
-        }
-    }
-
-    private static boolean gameLoop(GuessRecord rec) {
-        boolean gameQuit = false;
-        
-        GameInputOutput.showCurrentGameState(rec);
-        String str = GameInputOutput.promptUserForInput();
-        if (InputChecker.isRequestingTermination(str)) {
-            gameQuit = true;
-        } else {
-            CodePatch guess = new CodePatch(str);
-            compareGuessAgainstRecord(guess, rec);
-        }
-        return gameQuit;
-    }
-    
 }
 
 /*
@@ -125,5 +61,11 @@ public class StarJamChallenge {
  * 
  * Portable char by char input in java (as opposed to line by line)
  * http://stackoverflow.com/questions/1066318/how-to-read-a-single-char-from-the-console-in-java-as-the-user-types-it
-
+ * 
+ * Reference: Handling io exceptions in a safe and readable manner
+ * http://stackoverflow.com/questions/1045829/how-can-i-handle-an-ioexception-which-i-know-can-never-be-thrown-in-a-safe-and
+ *
+ * Use of the template pattern (console ui versus graphical ui)
+ * http://stackoverflow.com/questions/669271/what-is-the-difference-between-the-template-method-and-the-strategy-patterns
+ *
  */
