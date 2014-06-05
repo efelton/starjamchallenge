@@ -14,7 +14,11 @@ public class GuessRecord {
     private int numGuesses;
     private CodePatch target;
     
+    boolean gameWon, gameLost;
+    
     GuessRecord(CodePatch t){
+        gameWon = false;
+        gameLost = false;
         record = new CodePatch[maxLives];
         numGuesses = 0;
         target = t;
@@ -29,6 +33,27 @@ public class GuessRecord {
     public void addGuess(CodePatch guess) {
         record [numGuesses] = guess;
         numGuesses++;
+    }
+
+    public void processGuess(CodePatch guess) {
+        addGuess(guess);
+        if (checkCorrectGuess(guess))
+            gameWon = true;
+        else {
+            gameLost = (remainingLives() == 0);
+        }
+    }
+    
+    public boolean gameFinished() {
+        return gameWon || gameLost;
+    }
+
+    public boolean getGameLost() {
+        return gameLost;
+    }
+    
+    public boolean getGameWon() {
+        return gameWon;
     }
 
     // check if the user has used all their lives and the game is finished

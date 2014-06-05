@@ -17,45 +17,29 @@ public class StarJamChallenge {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-         gameLoop();
+        mainLoop();
+    }
+    
+    public static void mainLoop() {
+        boolean gameQuit;
+        
+        do {
+            gameQuit = playAGame();
+            if (!gameQuit) {
+                gameQuit = !GameInputOutput.promptToPlayAgain();
+            }
+        } while (!gameQuit);
     }
 
-    // Reference: Using bufferedReader to get input
-    // http://www.javadb.com/using-bufferedreader-to-read-input-number-from-user
-    private static void gameLoop (){
+    private static boolean playAGame (){
         GuessRecord rec = setUpNewGame();
-        
-        boolean gameWon = false;
-        boolean gameLost = false;
         boolean gameQuit = false;
         
-        try {
-            while (!gameQuit && !gameWon && !gameLost) {                
-                showCurrentGameState(rec);
-            
-                String str = promptUserForInput();
-            
-                if (InputChecker.isRequestingTermination(str)) {
-                    gameQuit = true;
-                } else {
-                    // make guess string into codepatch
-                    CodePatch guess = new CodePatch(str);
-                
-                    // check for game won and handle
-                    if (rec.checkCorrectGuess(guess))
-                        gameWon = true;
-                    gameLost = processGuess(rec, guess);
-                }
-            }
+        while (!gameQuit && !rec.gameFinished()) {                
+            gameQuit = gameLoop(rec);
         }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        if (gameWon) 
-             handleGameWon(rec);
-        if (gameLost) 
-             handleGameLost(rec);
+        handleGameFinishConditions(rec);
+        return gameQuit;
     }
 
     
@@ -64,56 +48,36 @@ public class StarJamChallenge {
         GuessRecord rec = new GuessRecord(target);
         return rec;
     }
-    
-    private static void handleGameLost(GuessRecord rec) {
-        System.out.print(rec.getStringRecord());
-        System.out.print("YOU LOOSE the code was ");
-        System.out.print(rec.getTargetString());
-        System.out.print("\n");
 
+    private static void handleGameFinishConditions(GuessRecord rec) {
+        if (rec.getGameWon()) 
+             GameInputOutput.handleGameWon(rec);
+        if (rec.getGameLost()) 
+             GameInputOutput.handleGameLost(rec);
     }
 
-    private static void handleGameWon(GuessRecord rec) {
-        System.out.print(rec.getStringRecord());
-        System.out.print("YOU WIN!!\n");
-    }
-
-    private static String promptUserForInput() throws IOException {
-        String str;
-        
-        do {
-            // get the input from the user
-            System.out.print("Enter a 4 character sequence from ROYGBIV or 0 to exit\n");
-            BufferedReader inp = new BufferedReader (new InputStreamReader(System.in));
-
-            str = inp.readLine();
-        } while (!InputChecker.isGood(str));
-        return str;
-    }
-
-    private static void handleDuplicateGuess() {
-        System.out.print("You have duplicated a guess that you have already made. Please try again.\n");
-    }
-
-    private static boolean processGuess(GuessRecord rec, CodePatch guess) {
-        boolean gameLost = false;
-        
-        // check if duplicate
+    private static void compareGuessAgainstRecord(CodePatch guess, GuessRecord rec) {
         if (rec.isDuplicateGuess(guess)) {
-            handleDuplicateGuess();
-        } else { // otherwise add to the record && check for game lost
-            rec.addGuess(guess);
-            if (rec.remainingLives()==0) {
-                gameLost = true;
-            }
+            GameInputOutput.handleDuplicateGuess();
+        } else {
+            rec.processGuess(guess);
         }
-        return gameLost;
     }
 
-    private static void showCurrentGameState(GuessRecord rec) {
-        System.out.print(rec.getStringRecord());
+    private static boolean gameLoop(GuessRecord rec) {
+        boolean gameQuit = false;
+        
+        GameInputOutput.showCurrentGameState(rec);
+        String str = GameInputOutput.promptUserForInput();
+        if (InputChecker.isRequestingTermination(str)) {
+            gameQuit = true;
+        } else {
+            CodePatch guess = new CodePatch(str);
+            compareGuessAgainstRecord(guess, rec);
+        }
+        return gameQuit;
     }
-
+    
 }
 
 /*
@@ -158,5 +122,8 @@ public class StarJamChallenge {
  *
  * Reference for converting a StringBuffer to a string
  * http://www.coderanch.com/t/385588/java/java/convert-StringBuffer-String
+ * 
+ * Portable char by char input in java (as opposed to line by line)
+ * http://stackoverflow.com/questions/1066318/how-to-read-a-single-char-from-the-console-in-java-as-the-user-types-it
 
  */

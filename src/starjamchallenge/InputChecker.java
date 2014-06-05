@@ -24,5 +24,14 @@ public class InputChecker {
     public static boolean isRequestingTermination (String str) {
         return str.contains("0");
     }
+    
+    public static boolean isPlayAgainGame (String str) {
+        if (str.matches(".*[yY].*"))
+            return true;
+        else if (str.matches(".*[nN].*"))
+            return false;
+        else
+            return true;
+    }
         
 }
