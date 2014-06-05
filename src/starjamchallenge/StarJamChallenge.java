@@ -5,7 +5,6 @@ package starjamchallenge;
  * @author Eoghan
  */
 public class StarJamChallenge {
-    GameInputOutput gameIO;
     
     /**
      * @param args the command line arguments
@@ -67,5 +66,9 @@ public class StarJamChallenge {
  *
  * Use of the template pattern (console ui versus graphical ui)
  * http://stackoverflow.com/questions/669271/what-is-the-difference-between-the-template-method-and-the-strategy-patterns
+ *
+ * How to set the font on a JDialog; used to get a monospaced font for showing the 
+ * current game status so that all the guesses and clues line up
+ * http://stackoverflow.com/questions/7434845/setting-the-default-font-of-swing-program-in-java
  *
  */

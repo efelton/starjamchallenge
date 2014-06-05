@@ -25,5 +25,6 @@ public abstract class GameInputOutput {
     public abstract String promptUserForInput() ;
     public abstract boolean promptToPlayAgain() ;
     public abstract void showCurrentGameState(GuessRecord rec) ;
+    public boolean introduceGame() {return true;}
     public void cleanUp() {}
 }

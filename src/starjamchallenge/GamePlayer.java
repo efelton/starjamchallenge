@@ -72,12 +72,14 @@ public class GamePlayer {
     // user quits
     public void mainLoop() {
         boolean gameQuit;
-        do {
+        
+        gameQuit = !gameIO.introduceGame(); // show the intro screen
+        while (!gameQuit) {
             gameQuit = playAGame();
             if (!gameQuit) {
                 gameQuit = !gameIO.promptToPlayAgain();
             }
-        } while (!gameQuit);
+        } 
         gameIO.cleanUp();
     }
 
