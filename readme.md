@@ -31,25 +31,30 @@ The user input is compared to the code patch and the following feedback is provi
 
 #### Intro Screen
 Introduction
+
 The fate of the world rests on your shoulders. A lethal virus is about to be on leashed on the web. You can stop the viruses release if you can guess the sequence of 4 colors that delete the virus.
+
 The possible colors are
-R - Red
-O - Orange
-Y - Yellow
-G - Green
-B - Blue
-I - Indigo
-V - Vilot
+* R - Red
+* O - Orange
+* Y - Yellow
+* G - Green
+* B - Blue
+* I - Indigo
+* V - Violet
+
 You have only 8 chances to guess the code. Are you ready to save the world (Y/N)?
 
 #### Start the Game
 
+```
 Lives: 8
 Code: _ _ _ _ Guessed : _ _ _ _ Clues:
 Enter a sequence a 4 character sequence from the following values ROYGBIV or 0 to exit:
+```
 
 #### Win the Game
-
+```
 Lives: 4
 Code: _ _ _ _ Guessed : _ _ _ _ Clues:
 Code: R _ _ _ Guessed : R O Y G Clues: 1
@@ -58,12 +63,14 @@ Code: R G _ _ Guessed : R G V I Clues: 2
 Code: R G I V Guessed : R G I V Clues: 0
 YOU WIN !!
 Play again Y/N:
+```
 
 #### Lose the Game
-
+```
 Lives: 0
 :
 :
 Code: R _ _ _ Guessed : R V V V Clues: 0
 YOU LOOSE, the code was : R G I V
 Play again Y/N:
+```
