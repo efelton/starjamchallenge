@@ -7,11 +7,16 @@ have to guess at the key. Each time the user makes a guess the program responds 
 
 See link for the assignment definition.
 
+## Notes
+
+* Presentation of the user interface had to be accomplished using a specific library called Javabook.
+* Used an enum to distinguish between the different colours Red, Orange, Yellow, Green, Blue, Indigo, and Violet. In retrospect it would have been simpler to just use characters and strings for the keys.
+
 ## Highlights 
 
-* Use of the strategy pattern for presentation. 
-* Use of test cases to test various aspects of the program.
-* Use of regular expressions to process the input.
+* Use of the strategy pattern for presentation. I implemented a command line user interface as well as the Javabook interface. Switching between these was as easy as instantiating a different subclass of `GameInputOutput`.
+* Use of test cases to test various aspects of the program. See `CodePatchTest`, `GuessRecordTest`, `ColourTest` and `InputCheckerTest`.
+* Use of regular expressions to process the input, see the `InputChecker` class.
 
 ## Detailed Assignment Definition 
 
