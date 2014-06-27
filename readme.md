@@ -9,9 +9,9 @@ See link for the assignment definition.
 
 ## Highlights 
 
--Use of the strategy pattern for presentation. 
--Use of test cases to test various aspects of the program.
--Use of regular expressions to process the input.
+* Use of the strategy pattern for presentation. 
+* Use of test cases to test various aspects of the program.
+* Use of regular expressions to process the input.
 
 ## Detailed Assignment Definition 
 
@@ -26,3 +26,44 @@ The user input is compared to the code patch and the following feedback is provi
 * If the number of lives is zero following this guess and the user has not won, then display, the code patch and. **YOU LOOSE, do you want to play again (Y/N)?**
 * If instead of entering in a code sequence the user enters 0, or there are 0 in the code patch entered, exit the game (boss kill switch)
 * If the same sequence is entered twice or more, inform the user that duplicate patches are not allowed and ask then to re enter a new code patch. No life is lose for a duplicate entry. Display the game as per the example screens on the next page.
+
+### Example Screens
+
+#### Intro Screen
+Introduction
+The fate of the world rests on your shoulders. A lethal virus is about to be on leashed on the web. You can stop the viruses release if you can guess the sequence of 4 colors that delete the virus.
+The possible colors are
+R - Red
+O - Orange
+Y - Yellow
+G - Green
+B - Blue
+I - Indigo
+V - Vilot
+You have only 8 chances to guess the code. Are you ready to save the world (Y/N)?
+
+#### Start the Game
+
+Lives: 8
+Code: _ _ _ _ Guessed : _ _ _ _ Clues:
+Enter a sequence a 4 character sequence from the following values ROYGBIV or 0 to exit:
+
+#### Win the Game
+
+Lives: 4
+Code: _ _ _ _ Guessed : _ _ _ _ Clues:
+Code: R _ _ _ Guessed : R O Y G Clues: 1
+Code: R _ _ _ Guessed : R B G I Clues: 2
+Code: R G _ _ Guessed : R G V I Clues: 2
+Code: R G I V Guessed : R G I V Clues: 0
+YOU WIN !!
+Play again Y/N:
+
+#### Lose the Game
+
+Lives: 0
+:
+:
+Code: R _ _ _ Guessed : R V V V Clues: 0
+YOU LOOSE, the code was : R G I V
+Play again Y/N:
